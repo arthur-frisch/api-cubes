@@ -15,6 +15,7 @@ type reqQuery = {
 app.get('/', async (req: reqQuery, res: Response) => {
   const parameter = req.query.nb;
   res.send(parameter);
+  console.log('test');
 });
 
 app.listen(port, () => {
