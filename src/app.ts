@@ -1,6 +1,8 @@
 import { Response } from 'express';
 import express from 'express';
+import dotenv from 'dotenv';
 
+dotenv.config();
 const app = express();
 const port = 3000;
 
@@ -16,5 +18,5 @@ app.get('/', async (req: reqQuery, res: Response) => {
 });
 
 app.listen(port, () => {
-  return console.log(`server is listening on ${port}`);
+  return console.log(`server is listening on port : ${process.env.PORT}`);
 });
