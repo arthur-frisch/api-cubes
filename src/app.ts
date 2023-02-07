@@ -7,14 +7,13 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT;
 const config = {
-  server: 'localhost\\sqlexpress',
-  database: 'cesi',
-  driver: 'msnodesqlv8',
+  server: process.env.SERVER ?? '',
+  database: process.env.DATABASE ?? '',
+  driver: process.env.DRIVER ?? '',
   options: {
     trustedConnection: true,
   },
 };
-
 type reqQuery = {
   query: {
     nb: number;
@@ -22,7 +21,6 @@ type reqQuery = {
 };
 
 app.get('/', async (req: reqQuery, res: Response) => {
-  // console.log(sql);
   sql.connect(config, function (err) {
     if (err) {
       console.log(err);
@@ -33,9 +31,6 @@ app.get('/', async (req: reqQuery, res: Response) => {
       else console.log(records);
     });
   });
-  // const result =
-  //   await sql.query`select * from Logs where idLog = ${req.query.nb}`;
-  // console.log(result);
   const parameter = req.query.nb;
   res.send(parameter);
 });
