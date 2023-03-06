@@ -1,5 +1,5 @@
-import { getParams } from './getParams';
+import { userType } from './userType';
 
 export type getManyQuery = {
-  query: getParams;
+  query: userType;
 };
