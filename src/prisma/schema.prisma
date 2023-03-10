@@ -13,3 +13,19 @@ model user {
   lastname  String   @db.VarChar(50)
   createdAt DateTime @default(now())
 }
+
+model Raspberry {
+  id Int @id @default(autoincrement())
+  macAddress String @unique @db.VarChar(17)
+  records Record[]
+}
+
+model Record {
+  id Int @id @default(autoincrement())
+  raspberryId Int
+  temperature Int 
+  pressure Float? 
+  ipAddress String? @db.VarChar(45)
+  createdAt DateTime @default(now())
+  raspberry Raspberry @relation(fields: [raspberryId], references: [id])
+}
