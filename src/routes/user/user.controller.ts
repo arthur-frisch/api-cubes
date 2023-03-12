@@ -65,14 +65,14 @@ router.get('/login', async (req: loginType, res) => {
     if (!user?.length) {
       return res
         .status(HttpCode.NOT_FOUND)
-        .json({ message: "Password isn't correct" });
+        .json({ message: 'No such user exists' });
     }
 
     // On compare ensuite les mots de passe
     const hasSamePassword = await bcrypt.compare(password, user[0].password);
     if (!hasSamePassword) {
       return res
-        .status(HttpCode.FORBIDDEN)
+        .status(HttpCode.NOT_FOUND)
         .json({ message: "Password isn't correct" });
     }
 
