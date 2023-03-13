@@ -8,6 +8,7 @@ const router = express.Router();
 router.get('/all', async (req, res) => {
   try {
     const result = await RecordService.get({});
+    console.log(result);
     res.status(HttpCode.SUCCESS).json(result);
   } catch (error) {
     console.log(error);
@@ -25,7 +26,7 @@ router.get('/many', async (req: getRecordQuery, res) => {
 
 router.post('/create', async (req: createRecordTypeQuery, res) => {
   try {
-    const result = await RecordService.create({ ...req.query });
+    const result = await RecordService.create({ ...req.body });
     if (result) return res.status(HttpCode.CREATED).json(result);
     return res
       .status(HttpCode.CONFLICT)

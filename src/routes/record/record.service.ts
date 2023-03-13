@@ -7,7 +7,10 @@ class RecordService {
     params: recordType
   ): Prisma.PrismaPromise<Record[]> | undefined {
     try {
-      return prisma.record.findMany({ where: params });
+      return prisma.record.findMany({
+        where: params,
+        orderBy: [{ createdAt: 'desc' }],
+      });
     } catch (error) {
       console.log(error);
     }
