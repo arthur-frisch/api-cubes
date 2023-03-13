@@ -4,4 +4,5 @@ export enum HttpCode {
   CONFLICT = 409,
   NOT_FOUND = 204,
   FORBIDDEN = 403,
+  ERROR = 400,
 }

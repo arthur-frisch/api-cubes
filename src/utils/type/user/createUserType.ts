@@ -1,4 +1,6 @@
 import { Prisma } from '@prisma/client';
 
 export type createUserType = Prisma.userCreateInput;
-export type createuserTypeQuery = { query: createUserType };
+export type createuserTypeQuery = {
+  body: createUserType;
+};

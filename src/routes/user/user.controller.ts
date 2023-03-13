@@ -27,7 +27,7 @@ router.get('/many', async (req: getManyQuery, res) => {
 
 router.post('/create', async (req: createuserTypeQuery, res) => {
   try {
-    const { username, password } = req.query;
+    const { username, password } = req.body;
     const hashedPassword = await bcrypt
       .genSalt(10)
       .then(salt => bcrypt.hash(password, salt));
@@ -42,7 +42,7 @@ router.post('/create', async (req: createuserTypeQuery, res) => {
       .status(HttpCode.CONFLICT)
       .json({ message: "Can't create user !" });
   } catch (error) {
-    console.log(error);
+    return res.status(HttpCode.ERROR).json({ error: error });
   }
 });
 
