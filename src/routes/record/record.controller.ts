@@ -8,7 +8,6 @@ const router = express.Router();
 router.get('/all', async (req, res) => {
   try {
     const result = await RecordService.get({});
-    console.log(result);
     res.status(HttpCode.SUCCESS).json(result);
   } catch (error) {
     console.log(error);
