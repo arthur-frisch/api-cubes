@@ -11,6 +11,7 @@ export * from './user/loginType';
 export * from './raspberry/raspberryType';
 export * from './raspberry/getRaspberryQuery';
 export * from './raspberry/createRaspberryType';
+export * from './raspberry/updateRaspberryType';
 
 // Record
 

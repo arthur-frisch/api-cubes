@@ -1,8 +1,13 @@
 import express from 'express';
 import { RecordService } from './record.service';
 import { HttpCode } from '../../utils/enum/httpCode';
-import { createRecordTypeQuery, getRecordQuery } from '../../utils/type';
+import {
+  createRecordAndRasp,
+  createRecordTypeQuery,
+  getRecordQuery,
+} from '../../utils/type';
 import dayjs from 'dayjs';
+import { RaspberryService } from '../raspberry/raspberry.service';
 
 const router = express.Router();
 
@@ -19,18 +24,6 @@ router.get('/many', async (req: getRecordQuery, res) => {
   try {
     const result = await RecordService.get({ ...req.query });
     res.status(HttpCode.SUCCESS).json(result);
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-router.post('/create', async (req: createRecordTypeQuery, res) => {
-  try {
-    const result = await RecordService.create({ ...req.body });
-    if (result) return res.status(HttpCode.CREATED).json(result);
-    return res
-      .status(HttpCode.CONFLICT)
-      .json({ message: "Can't create record !" });
   } catch (error) {
     console.log(error);
   }
@@ -86,6 +79,29 @@ router.get('/week/statistics', async (req, res) => {
   return res
     .status(HttpCode.SUCCESS)
     .json({ statsTempMoy, statsPressureMoy, statsHumidityMoy });
+});
+
+router.post('/create', async (req: createRecordTypeQuery, res) => {
+  try {
+    const result = await RecordService.create({ ...req.body });
+    if (result) return res.status(HttpCode.CREATED).json(result);
+    return res
+      .status(HttpCode.CONFLICT)
+      .json({ message: "Can't create record !" });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.post('/createWithRasp', async (req: createRecordAndRasp, res) => {
+  const { macAddress } = req.body;
+  const raspberry = await RaspberryService.findOrCreate(macAddress);
+  if (raspberry) {
+    await RaspberryService.update({ id: raspberry.id }, { isActive: true });
+    const params = { ...req.body.recordData, raspberryId: raspberry.id };
+    const result = await RecordService.create(params);
+    if (result) return res.status(HttpCode.CREATED).json(result);
+  }
 });
 
 export { router };
