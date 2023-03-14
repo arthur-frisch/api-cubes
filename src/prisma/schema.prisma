@@ -25,6 +25,7 @@ model Record {
   raspberryId Int
   temperature Int 
   pressure Float? 
+  humidity Float?
   ipAddress String? @db.VarChar(45)
   createdAt DateTime @default(now())
   raspberry Raspberry @relation(fields: [raspberryId], references: [id])
