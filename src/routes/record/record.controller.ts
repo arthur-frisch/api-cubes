@@ -3,7 +3,6 @@ import { RecordService } from './record.service';
 import { HttpCode } from '../../utils/enum/httpCode';
 import { createRecordTypeQuery, getRecordQuery } from '../../utils/type';
 import dayjs from 'dayjs';
-import { Record } from '@prisma/client';
 
 const router = express.Router();
 
