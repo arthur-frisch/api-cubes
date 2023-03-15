@@ -3,6 +3,7 @@ import { RecordService } from './record.service';
 import { HttpCode } from '../../utils/enum/httpCode';
 import {
   createRecordAndRasp,
+  createRecordType,
   createRecordTypeQuery,
   getRecordQuery,
 } from '../../utils/type';
@@ -94,11 +95,17 @@ router.post('/create', async (req: createRecordTypeQuery, res) => {
 });
 
 router.post('/createWithRasp', async (req: createRecordAndRasp, res) => {
-  const { macAddress } = req.body;
+  const macAddress = req.body.macAddress;
   const raspberry = await RaspberryService.findOrCreate(macAddress);
   if (raspberry) {
     await RaspberryService.update({ id: raspberry.id }, { isActive: true });
-    const params = { ...req.body.recordData, raspberryId: raspberry.id };
+    // DIRTY
+    const params: any = {
+      temperature: parseFloat(req.body.recordData.temperature),
+      pressure: parseFloat(req.body.recordData.pressure),
+      humidity: parseFloat(req.body.recordData.humidity),
+      raspberryId: raspberry.id,
+    };
     const result = await RecordService.create(params);
     if (result) return res.status(HttpCode.CREATED).json(result);
   }
